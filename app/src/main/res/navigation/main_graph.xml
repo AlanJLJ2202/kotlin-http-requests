@@ -9,5 +9,18 @@
         android:id="@+id/homeFragment"
         android:name="com.example.proyecto2p_app.ui.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_notaFragment"
+            app:destination="@id/notaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notaFragment"
+        android:name="com.example.proyecto2p_app.ui.fragments.NotaFragment"
+        android:label="fragment_nota"
+        tools:layout="@layout/fragment_nota" >
+        <action
+            android:id="@+id/action_notaFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>
