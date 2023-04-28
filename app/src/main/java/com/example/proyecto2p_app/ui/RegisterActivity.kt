@@ -74,35 +74,20 @@ class RegisterActivity : AppCompatActivity() {
 
                     println(bodyResponse)
 
-                    //val gson = Gson()
-                    //val apiResponse = gson.fromJson(response.body().toString(), ApiResponse::class.java)
-
-                    println("RESPUESTA")
-                    //println(apiResponse.data)
-
-                    //val UserObject = gson.fromJson(apiResponse.data.toString(), User::class.java)
-                    println("ID DEL USUARIO")
-                    //println(UserObject)
-
-
-                    /*if(bodyResponse != "null"){
+                    if(bodyResponse != "null"){
                         println("Entra al if")
 
                         //NAVEGAR A CONTENT ACTIVITY
 
                         runOnUiThread {
-                            val builder = AlertDialog.Builder(this@LoginActivity)
-                            builder.setMessage("Bienvenid@!")
+                            val builder = AlertDialog.Builder(this@RegisterActivity)
+                            builder.setMessage("Usuario registrado con éxito, inicia sesión")
                             builder.setCancelable(false)
                             builder.setPositiveButton("Aceptar") { dialog, _ ->
                                 dialog.dismiss()
 
                                 // Crea un Intent para ir a la siguiente actividad
-                                val intent = Intent(this@LoginActivity, ContentActivity::class.java)
-
-
-                                val id = 123 // Tu ID aquí
-                                intent.putExtra("ID", id)
+                                val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
 
                                 // Inicia la siguiente actividad
                                 startActivity(intent)
@@ -116,8 +101,8 @@ class RegisterActivity : AppCompatActivity() {
                         println("Entra al else")
 
                         runOnUiThread {
-                            val builder = AlertDialog.Builder(this@LoginActivity)
-                            builder.setMessage("Usuario o contraseña incorrectos")
+                            val builder = AlertDialog.Builder(this@RegisterActivity)
+                            builder.setMessage("Ocurrió un error al registrarse")
                             builder.setCancelable(false)
                             builder.setPositiveButton("Aceptar") { dialog, _ ->
                                 dialog.dismiss()
@@ -125,64 +110,22 @@ class RegisterActivity : AppCompatActivity() {
                             val dialog = builder.create()
                             dialog.show()
                         }
-                    }*/
+                    }
 
-                    /*} else {
-
-
-                        /*val builder = AlertDialog.Builder(this@LoginActivity)
-                        builder.setMessage("Ocurrió un error al conectarse con el servidor")
-                        builder.setCancelable(false)
-                        builder.setPositiveButton("Aceptar") { dialog, _ ->
-                            dialog.dismiss()
-                        }*/
-                        //Dialogo de error con toast
-
-
-                    }*/
                 } catch (e: Exception) {
                     // manejar la excepción
 
                     println("Error: $e")
                 }
             }
-
-            /*if (texto_usuario.text.toString() == "admin" && texto_password.text.toString() == "1234" ||
-                texto_usuario.text.toString() == "jair" && texto_password.text.toString() == "1234" ||
-                texto_usuario.text.toString() == "carlos" && texto_password.text.toString() == "1234") {
-                navegarSegundoActivity()
-            } else {
-                val builder = AlertDialog.Builder(this)
-                builder.setMessage("Usuario o contraseña incorrectos")
-                builder.setCancelable(false)
-                builder.setPositiveButton("Aceptar") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                val dialog = builder.create()
-                dialog.show()
-            }*/
-
-
         }
 
         boton_exit.setOnClickListener {
-
             println("Entra a la función")
-
-
-            /*val builder = AlertDialog.Builder(this)
-            builder.setMessage("¿Está seguro de que desea salir de la aplicación?")
-            builder.setCancelable(false)
-            builder.setPositiveButton("Sí") { _, _ ->
-                finish()
-            }
-            builder.setNegativeButton("No") { dialog, _ ->
-                dialog.dismiss()
-            }
-            val dialog = builder.create()
-            dialog.show()*/
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
-
 
         //Navegar al segundo activity
         fun navegarSegundoActivity() {

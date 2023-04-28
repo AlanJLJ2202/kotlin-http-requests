@@ -12,15 +12,18 @@ interface WebService {
         @Query ("username") username: String,
         @Query ("password") password: String): Response<Any>
 
-    @FormUrlEncoded
-    @POST("api/User")
+    @GET("registro")
     suspend fun registro(
-        @Field("id") id: Int,
-        @Field("username") username: String,
-        @Field("password") password: String): Response<Any>
+        @Query("id") id: Int,
+        @Query("username") username: String,
+        @Query("password") password: String): Response<Any>
 
 
-
+    @GET("savenote")
+    suspend fun registroNota(
+        @Query("title") title: String,
+        @Query("descripcion") descripcion: String,
+        @Query("iduser") iduser: Int): Response<Any>
 
     /*@GET("movie/top_rated")
     suspend fun getTopRatedMovies(@Query ("api_key") apiKey: String): MovieList

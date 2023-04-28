@@ -1,6 +1,9 @@
 package com.example.proyecto2p_app.ui.fragments
 
+import ApiResponse
 import Nota
+import NotasResponse
+import WebService
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +16,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.proyecto2p_app.R
 import com.example.proyecto2p_app.ui.LoginActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import org.w3c.dom.Text
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -55,6 +65,37 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_notaFragment)
         }
 
+        // Crear route
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.43.79:7257/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val apiService = retrofit.create(WebService::class.java)
+        val listaNotas = mutableListOf<Nota>()
+
+        val coroutineScope = CoroutineScope(Dispatchers.IO)
+
+        println("RESPUESTA DE NOTAS 1")
+
+        coroutineScope.launch {
+            try {
+                val response = apiService.getNotas(id!!)
+                println(response.body().toString())
+
+                val gson = Gson()
+                val apiResponse = gson.fromJson(response.body().toString(), NotasResponse::class.java)
+
+                print("RESPUESTA DE NOTAS")
+                print(apiResponse.data)
+
+            } catch (e: Exception) {
+                // manejar la excepción
+                println("ENTRA AL CATCH")
+                println("Error: $e")
+            }
+        }
+
         // encontrar el botón por su id
         val btnSalir = view.findViewById<Button>(R.id.btnLogout)
 
@@ -73,18 +114,20 @@ class HomeFragment : Fragment() {
 
 
         //declarar una lista de objetos NOTA
-        val listaNotas = mutableListOf<Nota>()
 
-        val nota = Nota(1, "Nota 1", "Esta es la nota 1")
+
+
         val nota2 = Nota(2, "Nota 2", "Esta es la nota 2")
         val nota3 = Nota(3, "Nota 3", "Esta es la nota 3")
         val nota4 = Nota(4, "Nota 4", "Esta es la nota 4")
+        val nota5 = Nota(5, "Nota 5", "Esta es la nota 5")
 
 
-        listaNotas.add(nota)
+
         listaNotas.add(nota2)
         listaNotas.add(nota3)
         listaNotas.add(nota4)
+        listaNotas.add(nota5)
 
         notasListView = view.findViewById(R.id.listView)
         notasAdapter = NotaListAdapter(requireContext(), listaNotas) // listaNotas es una lista de objetos Nota
@@ -135,4 +178,6 @@ class HomeFragment : Fragment() {
             return view
         }
     }
+
+
 }

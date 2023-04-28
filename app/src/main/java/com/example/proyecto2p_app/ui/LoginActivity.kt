@@ -60,7 +60,6 @@ class LoginActivity : AppCompatActivity() {
                     println("DATOS ENVIADOS")
                     println(texto_usuario.text.toString())
                     println(texto_password.text.toString())
-
                     val response = apiService.login(texto_usuario.text.toString(), texto_password.text.toString())
 
                     //if (response.isSuccessful) {
@@ -79,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
                         println("ID DEL USUARIO")
                         println(UserObject.id)
 
-                        if(bodyResponse != "null"){
+                        if(UserObject.id != 0){
                             println("Entra al if")
 
                             //NAVEGAR A CONTENT ACTIVITY
