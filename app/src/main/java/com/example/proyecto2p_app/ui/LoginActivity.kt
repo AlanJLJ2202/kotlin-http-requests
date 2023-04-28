@@ -53,17 +53,21 @@ class LoginActivity : AppCompatActivity() {
                     val response = apiService.login(texto_usuario.text.toString(), texto_password.text.toString())
 
 
-                    if (response.isSuccessful) {
+                    //if (response.isSuccessful) {
 
                         println("API RESPONSE")
                         println(response.body().toString())
+                        val bodyResponse = response.body().toString()
 
                         val gson = Gson()
                         val apiResponse = gson.fromJson(response.body().toString(), ApiResponse::class.java)
                         println(apiResponse.data)
 
-                        if(apiResponse.data.toString() == "true"){
+                        if(bodyResponse != "null"){
                             println("Entra al if")
+
+                            //NAVEGAR A CONTENT ACTIVITY
+
                             runOnUiThread {
                                 val builder = AlertDialog.Builder(this@LoginActivity)
                                 builder.setMessage("Bienvenid@!")
@@ -71,6 +75,18 @@ class LoginActivity : AppCompatActivity() {
                                 builder.setPositiveButton("Aceptar") { dialog, _ ->
                                     //navegarSegundoActivity()
                                     dialog.dismiss()
+
+                                    // Crea un Intent para ir a la siguiente actividad
+                                    val intent = Intent(this@LoginActivity, ContentActivity::class.java)
+
+                                    // Agrega el ID como un extra en el intent
+                                    val id = 123 // Tu ID aquí
+                                    intent.putExtra("ID", id)
+
+                                    // Inicia la siguiente actividad
+                                    startActivity(intent)
+
+
                                 }
                                 val dialog = builder.create()
                                 dialog.show()
@@ -91,7 +107,7 @@ class LoginActivity : AppCompatActivity() {
                             }
                         }
 
-                    } else {
+                    /*} else {
 
 
                         /*val builder = AlertDialog.Builder(this@LoginActivity)
@@ -103,7 +119,7 @@ class LoginActivity : AppCompatActivity() {
                         //Dialogo de error con toast
 
 
-                    }
+                    }*/
                 } catch (e: Exception) {
                     // manejar la excepción
 

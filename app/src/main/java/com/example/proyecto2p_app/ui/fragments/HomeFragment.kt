@@ -18,13 +18,15 @@ import org.w3c.dom.Text
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class HomeFragment : Fragment() {
+class HomeFragment(private val miId: Int) : Fragment() {
 
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var notasListView: ListView
     private lateinit var notasAdapter: NotaListAdapter
+
+    private var id = miId
 
 
     override fun onCreateView(
@@ -33,7 +35,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-
 
         // encontrar el botón por su id
         val myButton = view.findViewById<FloatingActionButton>(R.id.btnAgregarNota)
@@ -95,11 +96,19 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
+        /*arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
-        }
+        }*/
 
+        // Obtener el ID desde los argumentos
+        val miId = arguments?.getInt("miId")
+
+        println("ID RECIBIDO DESDE EL ACTIVITY")
+        println(miId)
+
+
+        println(id)
     }
 
     class NotaListAdapter(context: Context, notas: List<Nota>) :
