@@ -18,16 +18,13 @@ import org.w3c.dom.Text
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class HomeFragment(private val miId: Int) : Fragment() {
+class HomeFragment : Fragment() {
 
-    private var param1: String? = null
+    private var id: Int? = null
     private var param2: String? = null
 
     private lateinit var notasListView: ListView
     private lateinit var notasAdapter: NotaListAdapter
-
-    private var id = miId
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +32,17 @@ class HomeFragment(private val miId: Int) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        /*println("ID FRAGMENT")
+        println(miId)
+
+        // Comprobar si el ID es nulo
+        if (miId == null) {
+            // Manejar el caso en que el ID es nulo
+        } else {
+            // El ID no es nulo, hacer algo con él
+        }*/
+
 
         // encontrar el botón por su id
         val myButton = view.findViewById<FloatingActionButton>(R.id.btnAgregarNota)
@@ -102,12 +110,9 @@ class HomeFragment(private val miId: Int) : Fragment() {
         }*/
 
         // Obtener el ID desde los argumentos
-        val miId = arguments?.getInt("miId")
+        id = arguments?.getInt("miId")
 
-        println("ID RECIBIDO DESDE EL ACTIVITY")
-        println(miId)
-
-
+        println("ID RECIBIDO DESDE EL ACTIVITYYY")
         println(id)
     }
 

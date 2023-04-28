@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.example.proyecto2p_app.MainActivity
 import com.example.proyecto2p_app.R
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -27,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         val btnLogin = findViewById<Button>(R.id.button_login)
+        val btnRegistro = findViewById<Button>(R.id.button_registro)
         val boton_exit = findViewById<Button>(R.id.button_exit)
         val texto_usuario = findViewById<EditText>(R.id.editText_username)
         val texto_password = findViewById<EditText>(R.id.editText_password)
@@ -42,6 +44,14 @@ class LoginActivity : AppCompatActivity() {
             // Crea un nuevo hilo de trabajo
             val coroutineScope = CoroutineScope(Dispatchers.IO)
 
+
+            //validar si los campos no estan vacios
+
+            if(texto_usuario.text.toString() == "" || texto_password.text.toString() == ""){
+                Toast.makeText(this, "No se permiten campos vacíos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             // Ejecuta la solicitud HTTP en el nuevo hilo de trabajo
             coroutineScope.launch {
                 println("Entra a la función")
@@ -50,8 +60,8 @@ class LoginActivity : AppCompatActivity() {
                     println("DATOS ENVIADOS")
                     println(texto_usuario.text.toString())
                     println(texto_password.text.toString())
-                    val response = apiService.login(texto_usuario.text.toString(), texto_password.text.toString())
 
+                    val response = apiService.login(texto_usuario.text.toString(), texto_password.text.toString())
 
                     //if (response.isSuccessful) {
 
@@ -61,7 +71,13 @@ class LoginActivity : AppCompatActivity() {
 
                         val gson = Gson()
                         val apiResponse = gson.fromJson(response.body().toString(), ApiResponse::class.java)
+
+                        println("RESPUESTA")
                         println(apiResponse.data)
+
+                        val UserObject = gson.fromJson(apiResponse.data.toString(), User::class.java)
+                        println("ID DEL USUARIO")
+                        println(UserObject.id)
 
                         if(bodyResponse != "null"){
                             println("Entra al if")
@@ -73,21 +89,18 @@ class LoginActivity : AppCompatActivity() {
                                 builder.setMessage("Bienvenid@!")
                                 builder.setCancelable(false)
                                 builder.setPositiveButton("Aceptar") { dialog, _ ->
-                                    //navegarSegundoActivity()
                                     dialog.dismiss()
 
                                     // Crea un Intent para ir a la siguiente actividad
                                     val intent = Intent(this@LoginActivity, ContentActivity::class.java)
 
-                                    // Agrega el ID como un extra en el intent
-                                    val id = 123 // Tu ID aquí
-                                    intent.putExtra("ID", id)
+
+                                    intent.putExtra("ID", UserObject.id)
 
                                     // Inicia la siguiente actividad
                                     startActivity(intent)
-
-
                                 }
+
                                 val dialog = builder.create()
                                 dialog.show()
                             }
@@ -146,11 +159,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         boton_exit.setOnClickListener {
-
-            println("Entra a la función")
-
-
-            /*val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(this)
             builder.setMessage("¿Está seguro de que desea salir de la aplicación?")
             builder.setCancelable(false)
             builder.setPositiveButton("Sí") { _, _ ->
@@ -160,7 +169,13 @@ class LoginActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             val dialog = builder.create()
-            dialog.show()*/
+            dialog.show()
+        }
+
+        btnRegistro.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
 

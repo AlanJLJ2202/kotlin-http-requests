@@ -16,6 +16,13 @@ class ContentActivity : AppCompatActivity() {
         println("ID RECIBIDO")
         println(id)
 
+        val miFragment = HomeFragment()
+        val args = Bundle()
+        args.putInt("miId", id) // Suponiendo que el ID es 123
+        miFragment.arguments = args
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.homeFragment, miFragment)
+            .commit()
 
         /*// Crear una instancia del Fragment
         val miFragment = HomeFragment()
