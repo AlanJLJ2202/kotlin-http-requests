@@ -18,7 +18,7 @@ interface WebService {
 
     @POST("api/User")
     suspend fun registro(
-        @Field("username") id: Int,
+        @Field("id") id: Int,
         @Field("username") username: String,
         @Field("password") password: String): Response<Any>
 
